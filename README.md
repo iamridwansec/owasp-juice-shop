@@ -1,3 +1,4 @@
+
 # OWASP Juice Shop — Web Security Lab
 
 > A hands-on web application security research and documentation project focused on identifying, understanding, and documenting vulnerabilities in the OWASP Juice Shop.
@@ -314,4 +315,8 @@ Special thanks to the OWASP Juice Shop project and its contributors for providin
 
 ---
 
-**Built for learning. Built through practice. Built together. 🔐**
+**Built for learning. Built through practice. Built together.**
+=======
+# OWASP-juice-shop
+A collaborative cybersecurity project focused on learning and documenting web application security vulnerabilities using OWASP Juice Shop.
+
