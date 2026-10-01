@@ -1,4 +1,3 @@
-[README-admin-section.md](https://github.com/user-attachments/files/32938103/README-admin-section.md)
 # Broken Access Control: Access the Administration Section
 
 **Objective:** Access the administration section of the store (`/#/administration`).
