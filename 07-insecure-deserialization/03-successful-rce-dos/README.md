@@ -89,7 +89,7 @@ VM execution
 
 ### Evidence
 
-![Baseline request and successful evaluation](../../../images/07-successful-rce-dos-baseline.png)
+![Baseline request and successful evaluation](../../images/07-successful-rce-dos-baseline.png)
 
 The baseline request demonstrates that the endpoint accepts the supplied expression and executes it successfully.
 
@@ -142,7 +142,7 @@ This confirms that the supplied expression reached the evaluation mechanism.
 
 ### Baseline Evidence
 
-![Successful baseline evaluation](../../../images/08-successful-rce-dos-baseline.png)
+![Successful baseline evaluation](../../images/08-successful-rce-dos-baseline.png)
 
 The baseline demonstrates normal execution before introducing the resource-consuming expression.
 
@@ -203,7 +203,7 @@ This is the condition used by the challenge to identify a successful **RCE DoS**
 
 ## Exploitation Evidence
 
-![Successful RCE DoS exploitation](../../../images/09-successful-rce-dos-exploitation-evidence.png)
+![Successful RCE DoS exploitation](../../images/09-successful-rce-dos-exploitation-evidence.png)
 
 The `503 Service Unavailable` response demonstrates that the supplied expression kept the VM occupied until the configured execution timeout was reached.
 

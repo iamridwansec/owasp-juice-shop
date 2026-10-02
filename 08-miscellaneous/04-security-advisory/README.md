@@ -9,7 +9,7 @@
 | **Challenge**  | Security Advisory                                                                                                  |
 | **Objective**  | Identify a known vulnerability advisory and inform the shop using the required checksum as proof of due diligence. |
 
-![Security Advisory Challenge Metadata](../../../images/01-security-advisory-challenge-metadata.png)
+![Security Advisory Challenge Metadata](../../images/01-security-advisory-challenge-metadata.png)
 
 ---
 
@@ -39,7 +39,7 @@ The file contained a CSAF reference:
 Csaf: http://localhost:3000/.well-known/csaf/provider-metadata.json
 ```
 
-![Security Advisory Attack Surface](../../../images/02-security-advisory-attack-surface.png)
+![Security Advisory Attack Surface](../../images/02-security-advisory-attack-surface.png)
 
 ---
 
@@ -102,7 +102,7 @@ This was not an attempt to exploit the underlying third-party vulnerability. Ins
 
 The Score Board confirmed that **Security Advisory** was successfully solved.
 
-![Security Advisory Exploitation Evidence](../../../images/03-security-advisory-exploitation-evidence.png)
+![Security Advisory Exploitation Evidence](../../images/03-security-advisory-exploitation-evidence.png)
 
 ---
 

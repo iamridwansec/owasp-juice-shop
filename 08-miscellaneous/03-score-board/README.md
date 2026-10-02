@@ -43,7 +43,7 @@ After identifying the hidden Score Board path, it was accessed directly through 
 
 The application loaded the Score Board page successfully, confirming that the hidden route had been discovered.
 
-![Score Board Discovery and Exploitation](../../../images/03-score-board-exploitation-evidence.png)
+![Score Board Discovery and Exploitation](../../images/03-score-board-exploitation-evidence.png)
 
 ---
 

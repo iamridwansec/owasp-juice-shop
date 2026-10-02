@@ -9,7 +9,7 @@
 | **Challenge**  | Mass Dispel                                                |
 | **Objective**  | Close multiple "Challenge solved" notifications in one go. |
 
-![Mass Dispel Challenge Metadata](../../../images/01-mass-dispel-challenge-metadata.png)
+![Mass Dispel Challenge Metadata](../../images/01-mass-dispel-challenge-metadata.png)
 
 ---
 
@@ -27,7 +27,7 @@ After restarting the Juice Shop server, multiple **"You successfully solved a ch
 
 These notifications contained individual **X** buttons for closing them.
 
-![Mass Dispel Attack Surface](../../../images/02-mass-dispel-attack-surface.png)
+![Mass Dispel Attack Surface](../../images/02-mass-dispel-attack-surface.png)
 
 ---
 
@@ -89,7 +89,7 @@ This caused the application to send the appropriate notification data to the bac
 
 After using the bulk-close feature, the **Mass Dispel** challenge appeared as solved on the Score Board.
 
-![Mass Dispel Exploitation Evidence](../../../images/03-mass-dispel-exploitation-evidence.png)
+![Mass Dispel Exploitation Evidence](../../images/03-mass-dispel-exploitation-evidence.png)
 
 ---
 

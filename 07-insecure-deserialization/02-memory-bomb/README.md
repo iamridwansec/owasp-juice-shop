@@ -28,7 +28,7 @@ The challenge also notes that the effectiveness of the payload can depend on the
 
 ### Challenge Metadata
 
-![Memory Bomb challenge metadata](../../../images/04-memory-bomb-challenge-metadata.png)
+![Memory Bomb challenge metadata](../../images/04-memory-bomb-challenge-metadata.png)
 
 ## Attack Surface Discovery
 
@@ -64,7 +64,7 @@ Resource exhaustion / timeout
 
 The request was intercepted and inspected using Burp Suite.
 
-![Memory Bomb attack surface](../../../images/05-memory-bomb-attack-surface.png)
+![Memory Bomb attack surface](../../images/05-memory-bomb-attack-surface.png)
 
 ## Insecure Deserialization
 
@@ -155,7 +155,7 @@ handleYamlUpload
 
 and confirmed that the error occurred while processing the uploaded YAML file.
 
-![Memory Bomb exploitation evidence](../../../images/06-memory-bomb-exploitation-evidence.png)
+![Memory Bomb exploitation evidence](../../images/06-memory-bomb-exploitation-evidence.png)
 
 The Juice Shop Score Board subsequently displayed **Memory Bomb as solved**, confirming successful completion of the challenge.
 

@@ -10,7 +10,7 @@
 | **Tag**        | Good Practice                                                                         |
 | **Objective**  | Behave like an ethical hacker before conducting security research on the application. |
 
-![Security Policy Challenge Metadata](../../../images/01-security-policy-challenge-metadata.png)
+![Security Policy Challenge Metadata](../../images/01-security-policy-challenge-metadata.png)
 
 ---
 
@@ -34,7 +34,7 @@ http://127.0.0.1:42000/.well-known/security.txt
 
 This is a standard location used by websites to publish security contact and vulnerability disclosure information.
 
-![Security Policy Attack Surface](../../../images/02-security-policy-attack-surface.png)
+![Security Policy Attack Surface](../../images/02-security-policy-attack-surface.png)
 
 ---
 

@@ -61,7 +61,7 @@ The resource was identified as:
 /assets/public/images/padding/81px.png
 ```
 
-![Privacy Policy Attack Surface](../../../images/01-privacy-policy-attack-surface.png)
+![Privacy Policy Attack Surface](../../images/01-privacy-policy-attack-surface.png)
 
 ---
 
@@ -83,7 +83,7 @@ No authentication bypass, injection, or code execution was required.
 
 The Score Board confirmed that the **Privacy Policy** challenge was successfully completed.
 
-![Privacy Policy Exploitation Evidence](../../../images/02-privacy-policy-exploitation-evidence.png)
+![Privacy Policy Exploitation Evidence](../../images/02-privacy-policy-exploitation-evidence.png)
 
 ---
 
