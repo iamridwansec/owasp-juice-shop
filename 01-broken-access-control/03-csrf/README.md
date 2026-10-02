@@ -50,6 +50,8 @@ Navigated to `http://localhost:3000/profile` and confirmed the username had chan
 
 Challenge solved — confirmed on the Score Board.
 
+<img width="483" height="477" alt="Screenshot 2026-10-02 235922" src="https://github.com/user-attachments/assets/e7ff277b-fa1c-4d69-b00c-b492200c655e" />
+
 ## Root Cause
 
 The profile update endpoint does not use a CSRF token and does not set `SameSite` restrictions on its session cookie, allowing a form on an entirely different origin to perform an authenticated action on behalf of a logged-in user without their knowledge or consent.
