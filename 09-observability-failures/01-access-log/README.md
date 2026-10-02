@@ -13,7 +13,7 @@
 
 The objective of this challenge is to access a server access log that should normally remain available only on the server side.
 
-![Access Log Challenge Metadata](images/01-access-log-challenge-metadata.png)
+![Access Log Challenge Metadata](../../images/01-access-log-challenge-metadata.png)
 
 ## Reconnaissance / Discovery
 
@@ -133,7 +133,7 @@ access.log.2026-09-30
 audit.json
 ```
 
-![Access Log Attack Surface](images/02-access-log-attack-surface.png)
+![Access Log Attack Surface](../../images/02-access-log-attack-surface.png)
 
 This was the critical attack-surface discovery: server access logs were directly exposed through a publicly accessible web directory.
 
@@ -176,7 +176,7 @@ The application returned the log contents, demonstrating that server-side access
 
 The Juice Shop challenge was then marked as solved.
 
-![Access Log Exploitation Evidence](images/03-access-log-exploitation-evidence.png)
+![Access Log Exploitation Evidence](../../images/03-access-log-exploitation-evidence.png)
 
 ## Security Impact
 

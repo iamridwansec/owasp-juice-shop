@@ -216,15 +216,15 @@ The challenge was successfully marked as solved after accessing the exposed `/me
 
 #### Challenge Metadata
 
-![Exposed Metrics Challenge Metadata](images/01-exposed-metrics-challenge-metadata.png)
+![Exposed Metrics Challenge Metadata](../../images/01-exposed-metrics-challenge-metadata.png)
 
 #### Attack Surface
 
-![Exposed Metrics Attack Surface](images/02-exposed-metrics-attack-surface.png)
+![Exposed Metrics Attack Surface](../../images/02-exposed-metrics-attack-surface.png)
 
 #### Exploitation Evidence
 
-![Exposed Metrics Exploitation Evidence](images/03-exposed-metrics-exploitation-evidence.png)
+![Exposed Metrics Exploitation Evidence](../../images/03-exposed-metrics-exploitation-evidence.png)
 
 The exploitation evidence screenshot documents the successful access to the `/metrics` endpoint and the resulting exposed metrics.
 

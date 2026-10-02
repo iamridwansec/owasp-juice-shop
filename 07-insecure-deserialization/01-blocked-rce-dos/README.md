@@ -17,7 +17,7 @@ The challenge metadata reveals that the functionality required to solve the chal
 
 The hints also indicate that JavaScript is likely involved because the application is written in JavaScript and that the server should be made busy indefinitely.
 
-![Challenge Metadata](images/01-challenge-metadata.png)
+![Challenge Metadata](../../images/01-challenge-metadata.png)
 
 ### Attack Surface Discovery
 
@@ -33,7 +33,7 @@ The documentation exposed the B2B Order API and its order creation endpoint.
 
 The request accepts an `orderLinesData` parameter, which is supplied as a string.
 
-![Attack Surface — Swagger](images/02-attack-surface-swagger.png)
+![Attack Surface — Swagger](../../images/02-attack-surface-swagger.png)
 
 ## Insecure Deserialization
 
@@ -85,7 +85,7 @@ When processed by the application, `notevil` detected the infinite loop and gene
 Infinite loop detected - reached max iterations
 ```
 
-![Exploitation Evidence — Infinite Loop](images/03-exploitation-evidence-infinite-loop.png)
+![Exploitation Evidence — Infinite Loop](../../images/03-exploitation-evidence-infinite-loop.png)
 
 ## Evidence
 

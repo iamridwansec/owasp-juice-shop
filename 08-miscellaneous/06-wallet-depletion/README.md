@@ -11,7 +11,7 @@
 | **Description** | Withdraw more ETH from the new wallet than you deposited. |
 | **Hint**        | Try to exploit the contract of the wallet.                |
 
-![Challenge metadata](images/01-wallet-depletion-challenge-metadata.png)
+![Challenge metadata](../../images/01-wallet-depletion-challenge-metadata.png)
 
 ---
 
@@ -107,7 +107,7 @@ The vulnerable wallet contract was identified as:
 
 This became the primary target for the authorized lab exploitation.
 
-![Wallet attack surface](images/02-wallet-depletion-attack-surface.png)
+![Wallet attack surface](../../images/02-wallet-depletion-attack-surface.png)
 
 ---
 
@@ -202,9 +202,9 @@ While investigating the Web3 functionality, the **Web3 Sandbox** challenge was a
 
 The sandbox provided an additional indication that the application contained intentionally exposed smart-contract functionality.
 
-![Web3 Sandbox](images/03-wallet-depletion-web3-sandbox.png)
+![Web3 Sandbox](../../images/03-wallet-depletion-web3-sandbox.png)
 
-![Web3 Sandbox solved](images/04-web3-sandbox-exploitation-evidence.png)
+![Web3 Sandbox solved](../../images/04-web3-sandbox-exploitation-evidence.png)
 
 ---
 
@@ -272,7 +272,7 @@ The attacker contract was deployed through Remix using MetaMask on the **Sepolia
 
 Only Sepolia test ETH was used for this laboratory exercise.
 
-![Remix and MetaMask](images/05-wallet-depletion-remix-metamask.png)
+![Remix and MetaMask](../../images/05-wallet-depletion-remix-metamask.png)
 
 The deployed attacker contract was then interacted with through Remix.
 
@@ -300,7 +300,7 @@ Juice Shop displayed:
 
 This confirms that the application's `ContractExploited` event was triggered and the challenge condition was satisfied.
 
-![Wallet Depletion solved](images/06-wallet-depletion-exploitation-evidence.png)
+![Wallet Depletion solved](../../images/06-wallet-depletion-exploitation-evidence.png)
 
 ---
 
