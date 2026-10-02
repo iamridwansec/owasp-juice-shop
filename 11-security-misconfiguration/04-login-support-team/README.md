@@ -36,7 +36,7 @@ Among the discovered files was the following password-management database:
 incident-support.kdbx
 ```
 
-![FTP directory listing showing incident-support.kdbx](./images/01-ftp-directory-listing.png)
+![FTP directory listing showing incident-support.kdbx](../../../images/01-ftp-directory-listing.png)
 
 ### Key Finding
 
@@ -75,7 +75,7 @@ Keepass password database 2.x KDBX
 
 The KDBX database was encrypted and required a master password.
 
-![KeePass database requiring authentication](./images/02-keepass-database.png)
+![KeePass database requiring authentication](../../../images/02-keepass-database.png)
 
 Rather than attempting to break the database encryption, the investigation continued by examining the application's authentication logic for the original support credentials.
 
@@ -99,7 +99,7 @@ routes/login.js
 
 The source code contained the original support account credentials.
 
-![Support credentials discovered in application source code](./images/03-support-credential-source.png)
+![Support credentials discovered in application source code](../../../images/03-support-credential-source.png)
 
 > **Note:** The password has been redacted from the screenshot and documentation to avoid publishing a working credential.
 
@@ -135,7 +135,7 @@ The application successfully authenticated the support account and triggered the
 
 The successful authentication triggered the Juice Shop challenge notification.
 
-![Login Support Team challenge successfully solved](./images/04-challenge-solved.png)
+![Login Support Team challenge successfully solved](../../../images/04-challenge-solved.png)
 
 The application confirmed:
 
