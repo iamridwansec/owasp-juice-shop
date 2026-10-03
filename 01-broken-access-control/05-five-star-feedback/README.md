@@ -77,6 +77,8 @@ The form required solving a simple math CAPTCHA (e.g. `8*4+3 = 35`) before submi
 
 ### 4. Submitted the form
 
+Yes sir <img width="483" height="477" alt="Screenshot 2026-10-03 010040" src="https://github.com/user-attachments/assets/cc86bfe7-390d-45a0-907c-ff5dafcb8c9a" />
+
 ## Result
 
 Challenge solved — confirmed on the Score Board.
