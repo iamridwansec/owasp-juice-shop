@@ -14,9 +14,12 @@ A separate part of this challenge involves a "juicy malware" executable containi
 
 Went to `http://localhost:3000/profile` and located the **Image URL** field used to link a Gravatar image.
 
+<img width="966" height="955" alt="Screenshot 2026-10-11 230204" src="https://github.com/user-attachments/assets/4bdab244-503d-4dcf-b69e-446a4234c984" />
+
 ### 2. Confirmed the SSRF behavior
 
 Opened DevTools (`F12`) → **Network** tab, entered a test URL (e.g. `https://placecats.com/100/100`) into the Image URL field, and clicked **Link Image**.
+<img width="966" height="955" alt="image" src="https://github.com/user-attachments/assets/1bfd3ad3-fc66-417e-9e04-84e173ddd7ba" />
 
 Observed:
 - A request to `http://localhost:3000/profile/image/url` with `imageUrl` set to the entered URL.
