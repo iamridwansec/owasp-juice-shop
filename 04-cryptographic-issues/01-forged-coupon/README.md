@@ -1,4 +1,3 @@
-[README-forged-coupon.md](https://github.com/user-attachments/files/33462239/README-forged-coupon.md)
 # Forged Coupon: Forge a Coupon Code That Gives at Least 80% Discount
 
 **Objective:** Forge a coupon code that gives you a discount of at least 80%.
