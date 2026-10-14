@@ -41,7 +41,7 @@ Once the metadata coordinates are extracted, the downstream parsing mechanics re
 
 ---
 
-## 🔍 Core Security Concepts Covered
+##  Core Security Concepts Covered
 
 ### 1. File Format Chunk Architecture (Anatomy of a PNG)
 PNG files rely on sequential chunk payloads wrapped between fixed file markers. Because text blocks can be arbitrarily injected into these chunks (`tEXt` or `iTXt`), security filters that only inspect or strip common JPEG APP1 sections will entirely miss security exposures hiding inside alternative image architectures.
