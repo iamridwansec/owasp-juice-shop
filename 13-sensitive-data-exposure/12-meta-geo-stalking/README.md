@@ -1,54 +1,54 @@
-# OWASP Juice Shop Walkthrough: "Automating Coordinate Reverse Geocoding"
+# OWASP Juice Shop Walkthrough: "Meta Geo Stalking (PNG Architectural Variance)"
 
-This documentation provides an engineering breakdown of programmatic and browser-based methods to map raw GPS coordinate outputs into human-readable locations inside a Kali Linux environment.
+This documentation provides an engineering breakdown of how file formatting differences (JPEG vs. PNG) affect metadata extraction techniques during forensic asset examination.
 
 ---
 
 ##  Challenge Context & Objective
-Following the successful metadata extraction from a target graphic file, the objective shifts to reverse-geocoding the numerical values. Converting abstract decimal degree arrays into distinct geographical entities allows the analyst to successfully populate the knowledge-based reset interface.
+If the target user image asset is exported or saved natively in a PNG container format rather than a standard JPEG, the storage mechanism for locational coordinates shifts. The objective remains the same—extracting geographic coordinates to bypass knowledge-based security vectors—but the analyst's terminal inspection methods must adapt to the underlying structural change.
 
 ---
 
 ##  Step-by-Step Procedure
 
-### Step 1: Mapping Coordinates with the Browser (GUI Method)
-The fastest approach to pinning down the location without writing code is utilizing browser-based geographic services:
-1. Capture your exact degree metrics from the terminal trace: `36.958717, -84.348217`.
-2. Structure a direct query link pattern inside your web browser engine:
-   ```text
-   https://google.com
-   ```
-3. The platform maps the visual boundaries, resolving the final answer string: `Daniel Boone National Forest`.
+### Step 1: Technical Reality of PNG Metadata Storage
+Unlike JPEGs, which natively use dedicated binary blocks for EXIF infrastructure, the baseline PNG specification handles metadata using structured blocks called **chunks** (such as `tEXt`, `zTXt`, or `iTXt` text blocks). Modern platforms regularly embed standard EXIF payloads directly into a custom compressed chunk header labeled `eXIf`.
 
-### Step 2: Advanced Geocoding via the Terminal (CLI Method)
-To perform lookups entirely from your keyboard terminal environment, you can use specialized command line utilities or lightweight script environments:
+### Step 2: Adaptive Extraction Pipeline in Kali Linux
+Standard basic imaging utilities might fail to parse text chunks correctly. To extract coordinates from a target PNG file, you must adapt your tactical parsing commands.
 
-#### Alternative A: Native Python Scripting (Geopy Protocol)
-1. Inject the necessary environment mapping dependencies:
+1. Open your Kali terminal interface.
+2. Run your dedicated parsing scanner over the target asset (`favorite-hiking-place.png`):
    ```bash
-   pip install geopy --break-system-packages
-   ```
-2. Trigger an immediate localized evaluation statement using the free OpenStreetMap engine structure:
-   ```bash
-   python3 -c "from geopy.geocoders import Nominatim; geo = Nominatim(user_agent='ctf_agent'); loc = geo.reverse('36.958717, -84.348217'); print(loc.address)"
-   ```
-3. **Terminal Verification Output:**
-   ```text
-   Daniel Boone National Forest, Whitney Road, Laurel County, Kentucky, 40701, United States
+   exiftool favorite-hiking-place.png
    ```
 
-#### Alternative B: Built-in Kali Go Utilities (`exifLooter`)
-You can use specialized tools natively packaged within security repositories to automatically chain metadata parsing and coordinate mapping:
-```bash
-exifLooter -f ~/Downloads/favorite-hiking-place.png
+#### Alternative Pipeline: Native String Scanning
+If an asset pipeline has stripped typical structure flags but left raw ASCII metadata strings intact within the graphic's text chunks, invoke a raw string extract sequence to pull the geolocational data fields directly out of the binary layout:
+   ```bash
+   strings favorite-hiking-place.png | grep -i -E "gps|lat|long|position"
+   ```
+
+#### Terminal Execution Alternative Output
+The binary text scanner parses the PNG structure directly, bypassing the absence of standard JPEG formatting layers to reveal the text chunks:
+```text
+iTXtEXif:GPSLatitude=36.958717
+iTXtEXif:GPSLongitude=-84.348217
 ```
+
+### Step 3: Resolution Consistency
+Once the metadata coordinates are extracted, the downstream parsing mechanics remain unchanged. The decimal degrees translate to identical points on the mapping plane, yielding the constant answer string: `Daniel Boone National Forest`.
 
 ---
 
 ## 🔍 Core Security Concepts Covered
 
-### 1. Reverse Geocoding Resolution Pipelines
-Mapping functions translate spatial degrees into recognizable regional variables by crawling multi-layered node databases. In security operations and threat intelligence pipelines, automating these lookups enables rapid tracking of adversarial infrastructure arrays or tracing physical media leak origins from raw data logs.
+### 1. File Format Chunk Architecture (Anatomy of a PNG)
+PNG files rely on sequential chunk payloads wrapped between fixed file markers. Because text blocks can be arbitrarily injected into these chunks (`tEXt` or `iTXt`), security filters that only inspect or strip common JPEG APP1 sections will entirely miss security exposures hiding inside alternative image architectures.
 
-### 2. Operational Operational OPSEC via OSINT Tools
-When automating structural checks over third-party web platforms, your host system issues API handshakes that leave tracking logs. For strict red-team operations or private threat modeling, utilizing localized coordinate databases or self-hosted tracking arrays prevents accidental information exposure to external network logs.
+### 2. False Sense of Security in Format Conversion
+Users often mistakenly believe that changing an asset's file extension or saving a JPEG template out as a PNG automatically sanitizes privacy-violating telemetry. Modern imaging software carries existing properties across container formats during export processes unless explicit metadata stripping instructions are declared.
+
+### 3. Comprehensive Sanitization Frameworks
+A secure backend upload pipeline must evaluate incoming media assets based on their true magic bytes rather than simple file extension labels. Sanitize the underlying file structures comprehensively across all potential graphic architectures (including PNG text chunks) before making the assets accessible over a public web matrix.
+
