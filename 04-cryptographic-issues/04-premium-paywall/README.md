@@ -1,8 +1,6 @@
-# OWASP Juice Shop – Premium Paywall Challenge
+# Premium Paywall Challenge
 
 **Challenge Goal:** Unlock the Premium Challenge by decrypting a hidden path and visiting it.
-
-**Date started:** 15 October 2026
 
 ---
 
@@ -16,47 +14,54 @@ Once decrypted, it reveals a secret URL that unlocks the premium content.
 
 ## Step-by-Step Solution
 
-### 1. Locate the encrypted comment
+### Step 1: Find the HTML comment on the Score Board
 
-1. Open the Score Board: `http://localhost:3000/#/score-board`
-2. Find the **Premium Paywall** challenge row.
-3. Right-click → Inspect (or view page source).
-4. You will find this HTML comment:
+1. Go to:
+   ```
+   http://localhost:3000/#/score-board
+   ```
+   <img width="966" height="1015" alt="Screenshot 2026-10-15 235430" src="https://github.com/user-attachments/assets/e27395c9-9545-4555-9245-3551dd2ca2cc" />
 
-```html
-<!--IvLuRfBJYlmStf9XfL6ckJFngyd9LfV1JaaN/KRTPQPidTuJ7FR+D/nkWJUF+0xUF07CeCeqYfxq+OJVVa0gNbqgYkUNvn//UbE7e95C+6e+7GtdpqJ8mqm4WcPvUGIUxmGLTTAC2+G9UuFCD1DUjg==-->
-```
+2. Search for “premium” in the search box to find the **Premium Paywall** card. <img width="966" height="1015" alt="Screenshot 2026-10-15 235452" src="https://github.com/user-attachments/assets/c14eb5ca-4a2f-4097-98ff-d5e334f978b4" />
 
-### 2. Find the encryption key (Forced Directory Browsing)
+3. Right-click directly on that card (or near it) and choose **Inspect**  
+   (do **not** use “View Page Source”, because Score Board content is rendered dynamically). 
+4. In the Inspector, use the Inspector’s own search box and search for:
+   ```
+   IvLuRfBJYlmStf9XfL6ckJFngyd9LfV1JaaN
+   ```
+   
+5. That jumps you to the HTML comment containing the encrypted string:
 
-The key is stored in a hidden directory.
+   ```html
+   <!--
+   IvLuRfBJYlmStf9XfL6ckJFngyd9...
+   nkWJUF+0xUF07CeCeqYfxq+OJVVa...
+   UbE7e95C+6e+7GtdpqJ8mqm4WcPvU...
+   -->
+   ```
 
-**Method A – Using ZAP**
-- Launch OWASP ZAP (`zaproxy`)
-- Use **Tools → Forced Browse → Forced Browse Directory**
-- Target: `http://localhost:3000`
-- Wordlist: `directory-list-2.3-big.txt` or `directory-list-lowercase-2.3-big.txt`
+This matches the encrypted string from the official guide.
 
-**Method B – Using terminal (faster)**
-```bash
-dirb http://localhost:3000 /usr/share/wordlists/dirb/big.txt
-# or
-gobuster dir -u http://localhost:3000 -w /usr/share/wordlists/dirb/big.txt -t 50
-```
+---
 
-Both methods reveal:
+### Step 2: Retrieve the encryption key
 
-```
-http://localhost:3000/encryptionkeys
-```
+The key file is publicly accessible (no directory protection).
 
-Then open:
+1. Open this URL directly in the browser:
+   ```
+   http://localhost:3000/encryptionkeys/premium.key
+   ```
+2. The file downloads automatically (e.g. `premium.key` or `premium(1).key`).
+<img width="966" height="1015" alt="Screenshot 2026-10-15 235758" src="https://github.com/user-attachments/assets/67127592-d620-4d8e-9c3f-e703b0bc74d4" />
 
-```
-http://localhost:3000/encryptionkeys/premium.key
-```
+3. Read the file contents in the terminal:
+   ```bash
+   cat ~/Downloads/premium*.key
+   ```
 
-**Content of `premium.key`:**
+**Output:**
 ```
 1337133713371337.EA99A61D92D2955B1E9285B55BF2AD42
 ```
@@ -64,49 +69,62 @@ http://localhost:3000/encryptionkeys/premium.key
 - **IV**  = `1337133713371337`
 - **Key** = `EA99A61D92D2955B1E9285B55BF2AD42`
 
-### 3. Decrypt the ciphertext
+---
+<img width="523" height="94" alt="Screenshot 2026-10-15 235937" src="https://github.com/user-attachments/assets/7b4c6515-0202-4655-a67c-e1425326567b" />
 
-Run this command in the terminal:
+
+### Step 3: Decrypt the ciphertext
+
+Run this exact command:
 
 ```bash
 echo "IvLuRfBJYlmStf9XfL6ckJFngyd9LfV1JaaN/KRTPQPidTuJ7FR+D/nkWJUF+0xUF07CeCeqYfxq+OJVVa0gNbqgYkUNvn//UbE7e95C+6e+7GtdpqJ8mqm4WcPvUGIUxmGLTTAC2+G9UuFCD1DUjg==" | openssl enc -d -aes-256-cbc -K EA99A61D92D2955B1E9285B55BF2AD42 -iv 1337133713371337 -a -A
 ```
 
-**Expected plaintext:**
+**Decrypted plaintext:**
 ```
 /this/page/is/hidden/behind/an/incredibly/high/paywall/that/could/only/be/unlocked/by/sending/1btc/to/us
 ```
 
-### 4. Visit the secret page
+---
 
-Open the decrypted path in your browser:
+<img width="949" height="151" alt="Screenshot 2026-10-16 000757" src="https://github.com/user-attachments/assets/97622748-8d93-4f75-be27-be445940b415" />
+
+### Step 4: Visit the secret page
+
+Open the full URL in your browser:
 
 ```
 http://localhost:3000/this/page/is/hidden/behind/an/incredibly/high/paywall/that/could/only/be/unlocked/by/sending/1btc/to/us
 ```
 
-This unlocks the **Premium Paywall** challenge and shows the premium VR wallpaper.
+You will see the premium VR wallpaper (Juice Shop logo with ants and 3D effect).  
+<img width="966" height="955" alt="Screenshot 2026-10-16 000841" src="https://github.com/user-attachments/assets/74f9d9e4-1ac6-4652-8c79-c54248ce2117" />
+
+This solves the **Premium Paywall** challenge.
 
 ---
 
+<img width="966" height="955" alt="Screenshot 2026-10-16 001015" src="https://github.com/user-attachments/assets/73008845-c4fe-4c56-a9ef-723e52c3482c" />
+
 ## Quick Reference
 
-| Item              | Value                                                                 |
-|-------------------|-----------------------------------------------------------------------|
+| Item              | Value |
+|-------------------|-------|
 | Ciphertext        | `IvLuRfBJYlmStf9XfL6ckJFngyd9LfV1JaaN/KRTPQPidTuJ7FR+D/nkWJUF+0xUF07CeCeqYfxq+OJVVa0gNbqgYkUNvn//UbE7e95C+6e+7GtdpqJ8mqm4WcPvUGIUxmGLTTAC2+G9UuFCD1DUjg==` |
-| AES Mode          | AES-256-CBC                                                           |
-| Key               | `EA99A61D92D2955B1E9285B55BF2AD42`                                    |
-| IV                | `1337133713371337`                                                    |
+| AES Mode          | AES-256-CBC |
+| Key               | `EA99A61D92D2955B1E9285B55BF2AD42` |
+| IV                | `1337133713371337` |
 | Decrypted path   | `/this/page/is/hidden/behind/an/incredibly/high/paywall/that/could/only/be/unlocked/by/sending/1btc/to/us` |
 
 ---
 
 ## Notes & Tips
 
-- The IV in the key file is written as `1337` but must be used as the 16-byte value `1337133713371337`.
-- Always use the `-a -A` flags with openssl so it correctly handles the base64 input.
-- Completing the visit to the secret URL is enough to solve the challenge.
+- The key file can be accessed directly — no brute-force is strictly required (although Forced Browse also works).
+- The IV appears as `1337` in some write-ups but must be used as the 16-byte value `1337133713371337`.
+- Always include the `-a -A` flags with `openssl` so base64 input is handled correctly.
+- Visiting the decrypted URL is sufficient to mark the challenge as solved.
 
 ---
-
-**Status:** Key and IV recovered. Decryption and final visit remaining.
+[README-Premium-Paywall.md](https://github.com/user-attachments/files/33518457/README-Premium-Paywall.md)
