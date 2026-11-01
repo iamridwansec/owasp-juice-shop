@@ -82,6 +82,21 @@ Where appropriate, we examine:
 
 All testing is performed against an intentionally vulnerable application in an authorized learning environment.
 
+## Threat Modelling
+
+Before investigating individual vulnerability challenges, we examine the security architecture of OWASP Juice Shop through a structured threat-modelling assessment.
+
+The assessment focuses on identifying critical assets, mapping application components, understanding data flows and trust boundaries, and evaluating potential threats using the STRIDE methodology.
+
+**Threat Modelling Documentation:**
+
+- [Threat Modelling Overview](threat-model/README.md)
+- [Detailed Threat Model](threat-model/threat-model.md)
+- [Data Flow Diagram](images/threat-model-dfd.png)
+
+This assessment establishes an architectural security baseline for the subsequent vulnerability investigations.
+
+
 ---
 
 ##  Repository Structure

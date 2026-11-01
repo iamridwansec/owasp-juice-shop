@@ -1,0 +1,57 @@
+
+flowchart TB
+
+    %% External entities
+    USER["E1: External User"]
+    OAUTH["E2: External OAuth Provider<br/>(Optional)"]
+
+    %% Client trust boundary
+    subgraph CLIENT["TB1: Client Environment"]
+        BROWSER("P1: Web Browser")
+        FRONTEND("P2: Angular Frontend")
+    end
+
+    %% Application trust boundary
+    subgraph APP["TB2: Application Server"]
+        SERVER("P3: Node.js / Express Server")
+        API("P4: REST API")
+        AUTH("P5: Authentication / Session Handling")
+        WS("P6: WebSocket Service")
+    end
+
+    %% Data trust boundary
+    subgraph DATA["TB3: Server-Side Data Storage"]
+        SQLITE[("D1: SQLite Database")]
+        MARS[("D2: MarsDB (If Used)")]
+        FILES[("D3: Application Filesystem")]
+    end
+
+    %% User and frontend flows
+    USER -->|"DF-01: User interaction"| BROWSER
+    BROWSER -->|"DF-02: Application request"| FRONTEND
+    FRONTEND -->|"DF-03: HTTP / REST requests"| API
+    API -->|"DF-04: HTTP responses"| FRONTEND
+    FRONTEND <-->|"DF-05: WebSocket communication (if enabled)"| WS
+
+    %% Application processing
+    API -->|"Request handling"| SERVER
+    SERVER -->|"Authentication checks"| AUTH
+    AUTH -->|"Authentication result"| SERVER
+
+    %% External authentication
+    AUTH <-->|"DF-06: OAuth flow (if configured)"| OAUTH
+
+    %% Data access
+    SERVER <-->|"DF-07: Database read / write"| SQLITE
+    SERVER <-->|"DF-08: MarsDB operations (if used)"| MARS
+    SERVER <-->|"DF-09: File access"| FILES
+
+    %% Styling
+    classDef external fill:#FCE8D5,stroke:#C66A1B,color:#222
+    classDef process fill:#DCEBFA,stroke:#286090,color:#222
+    classDef datastore fill:#E2F0D9,stroke:#548235,color:#222
+
+    class USER,OAUTH external
+    class BROWSER,FRONTEND,SERVER,API,AUTH,WS process
+    class SQLITE,MARS,FILES datastore
+
